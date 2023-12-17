@@ -25,3 +25,11 @@ class Order_items(models.Model):
     count = models.IntegerField()
     discount = models.FloatField()
     cost = models.FloatField()
+
+class Cart(models.Model):
+    products = models.ManyToManyField(Products, through='CartItem')
+
+class CartItem(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)

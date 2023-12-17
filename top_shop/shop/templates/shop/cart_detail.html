@@ -1,0 +1,24 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Корзина
+{% endblock %}
+
+{% block content %}
+<h1>Корзина</h1>
+    <ul>
+        {% for item in cart_items %}
+            <li>{{item.product.id}} - {{ item.product.name }} - {{ item.quantity }} - ${{ item.product.price }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total: ${{ total }}</p>
+<form action="{% url 'clear_cart' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Удалить товары из корзины</button>
+    </form>
+
+<form action="" method="post">
+        {% csrf_token %}
+        <button type="submit">Сделать заказ</button>
+    </form>
+{% endblock %}
