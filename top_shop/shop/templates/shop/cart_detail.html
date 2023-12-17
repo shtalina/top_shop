@@ -17,7 +17,7 @@
         <button type="submit">Удалить товары из корзины</button>
     </form>
 
-<form action="" method="post">
+<form action="{% url 'createOrders' %}" method="">
         {% csrf_token %}
         <button type="submit">Сделать заказ</button>
     </form>

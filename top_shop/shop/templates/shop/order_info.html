@@ -1,9 +1,13 @@
 {% extends 'shop/base.html' %}
 
 {% block title %}
-Оформление заказа
+Форма добавления заказа
 {% endblock %}
 
 {% block content %}
-
+<form method="post">
+    {% csrf_token %}
+{{ form.as_p }}
+    <button type="submit">Добавить заказ</button>
+</form>
 {% endblock %}

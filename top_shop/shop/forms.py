@@ -1,5 +1,6 @@
 from django import forms
 from .models import Products
+from .models import Orders
 class EditForm(forms.Form):
     product_id = forms.IntegerField()
     count = forms.IntegerField()
@@ -12,3 +13,8 @@ class ProductsForm(forms.ModelForm):
     class Meta:
         model = Products
         fields = ['name', 'price','stock']
+
+class OrdersForm(forms.ModelForm):
+    class Meta:
+        model = Orders
+        fields = ['name', 'customer', 'phone', 'type', 'status']

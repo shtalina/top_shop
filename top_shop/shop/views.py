@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Users, Products, Orders, Order_items, Cart, CartItem
 from .forms import EditForm
 from .forms import ProductsForm
+from .forms import OrdersForm
 # Create your views here.
 
 def products_list(request):
@@ -17,11 +18,6 @@ def order_list(request):
     orders = Orders.objects.all()
 
     return render(request, 'shop/order_list.html', {'orders': orders})
-
-def order_info(request, order_id):
-    order = Orders.objects.get(pk=order_id)
-    data = Order_items.objects.get(pk=order_id)
-    return render(request, 'shop/order_info.html', {'data': data, 'order': order})
 
 def edit_order(request, order_id):
     edit = get_object_or_404(order_items, pk=order_id)
@@ -70,4 +66,13 @@ def clear_cart(request):
     cart.cartitem_set.all().delete()
     return redirect('cart_detail')
 
+def createOrders(request):
+    form = OrdersForm()
+    if request.method == 'POST':
+        form = OrdersForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            form = OrdersForm()
 
+    return render (request, 'shop/order_info.html',  {'form': form})
