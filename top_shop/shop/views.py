@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Users, Products, Orders, Order_items, Cart, CartItem, OrderItem
-from .forms import EditForm, ProductsForm, OrdersForm
+from .forms import EditForm, ProductsForm, OrdersForm, UsersForm
 # Create your views here.
 
 def products_list(request):
@@ -25,9 +25,35 @@ def delete_product(request, product_id):
     else:
         return HttpResponse('Nonono!')
 
-def users(request):
 
-    return render(request, 'shop/users.html')
+def users(request):
+    users = Users.objects.all()
+    form = UsersForm()
+    if request.method == 'POST':
+        form = UsersForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            form = UsersForm()
+
+    return render(request, 'shop/users.html',
+                  {'users': users,
+                   'form': form})
+
+
+def delete_users(request, users_id):
+    users = Users.objects.get(pk=users_id)
+    if request.method == 'POST':
+        users.delete()
+        return redirect('users')
+    else:
+        return HttpResponse('Nonono!')
+
+
+def order_list(request):
+    orders = Orders.objects.all()
+
+    return render(request, 'shop/order_list.html', {'orders': orders})
 
 def order_list(request):
     orders = Orders.objects.all()
@@ -72,7 +98,10 @@ def cart_detail(request):
         if form.is_valid():
             order = form.save()  # Сохраняем заказ
             for cart_item in cart_items:
-                OrderItem.objects.create(order=order, product=cart_item.product, quantity=cart_item.quantity, price_cart=cart_item.product.price)
+                price_cart=cart_item.quantity * cart_item.product.price
+                OrderItem.objects.create(order=order, product=cart_item.product, quantity=cart_item.quantity, price_cart=price_cart)
+
+
             # Далее можно перейти к странице с подробной информацией о заказе
         else:
             form = OrdersForm()

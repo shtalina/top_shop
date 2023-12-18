@@ -3,11 +3,17 @@ from django.db import models
 class Users(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 class Products(models.Model):
     name = models.CharField(max_length=255)
     price = models.FloatField()
     stock = models.IntegerField()
     image = models.TextField(null=True)
+
+    def __str__(self):
+        return self.name
 
 class Orders(models.Model):
     name = models.CharField(max_length=20, blank=True)
@@ -19,6 +25,8 @@ class Orders(models.Model):
     type = models.CharField(max_length=255, choices=[('online', 'Online'), ('offline', 'Offline')])
     status = models.CharField(max_length=255, choices=[('active', 'Active'), ('completed', 'Completed'),
                                                        ('cancelled', 'Cancelled')])
+    def __str__(self):
+        return self.customer
 
 class Order_items(models.Model):
     order_id = models.ForeignKey(Orders, on_delete=models.CASCADE)
@@ -46,3 +54,4 @@ class OrderItem(models.Model):
     count = models.IntegerField(null=True)
     discount = models.FloatField(null=True)
     cost = models.FloatField(null=True)
+
