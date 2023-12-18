@@ -5,35 +5,41 @@
 {% endblock %}
 
 {% block content %}
-
-<table style="width:100%">
-    <tr>
-        <th> id Заказа </th>
-        <th> Покупатель </th>
-        <th> Телефон </th>
-        <th> Время создания </th>
-        <th> Время окончания </th>
-        <th> Менеджер </th>
-        <th> Тип заказа </th>
-        <th> Статус заказа</th>
-        <th> Подробнее</th>
-    </tr>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Тип заказа</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Менеджер</th>
+        <th scope="col">Покупатель</th>
+        <th scope="col">Контактный телефон</th>
+        <th scope="col">Создан</th>
+        <th scope="col">Завершен</th>
+      </tr>
+    </thead>
+    <tbody>
     {% for order in orders %}
 
     <tr>
 
         <td>{{ order.id}}</td>
+        <td>{{ order.type }}</td>
+        <td>{{ order.status }}</td>
+         <td>{{ order.user_id }}</td>
         <td>{{ order.customer }}</td>
         <td>{{ order.phone }}</td>
         <td>{{ order.created_at }}</td>
         <td>{{ order.completed_at }}</td>
-        <td>{{ order.user_id }}</td>
-        <td>{{ order.type }}</td>
-        <td>{{ order.status }}</td>
-        <td><a href="{% url 'order_detail' %}">Подробнее</a></td>
+
+
+
+        <td><a href="{% url 'order_info' id=order.id %}">Подробнее</a></td>
     </tr>
 
     {% endfor %}
-</table>
-
+      
+    </tbody>
+  </table>
+  
 {% endblock %}

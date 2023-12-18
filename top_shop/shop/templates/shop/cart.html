@@ -5,11 +5,75 @@
 {% endblock %}
 
 {% block content %}
-<h1>Your Cart</h1>
-    <ul>
-        {% for item in cart_items %}
-            <li>{{ item.product.name }} - {{ item.quantity }} - ${{ item.product.price }}</li>
-        {% endfor %}
-    </ul>
-    <p>Total: ${{ total }}</p>
+<section class="vh-100" style="background-color: #ffffff;">
+    <div class="container h-100">
+      <div class="row">
+        <div class="col">
+          <p><span class="h2">Оформление заказа </span><span class="h4"></span></p>
+  
+          <div class="card mb-4">
+            <div class="card-body p-4">
+  
+              <div class="row align-items-center">
+  
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="small text-muted mb-4 pb-2">Номер заказа</p>
+                    <p class="lead fw-normal mb-0">{}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="small text-muted mb-4 pb-2">ID покупателя</p>
+                    <p class="lead fw-normal mb-0"><i class="fas fa-circle me-2" style="color: #ffffff;"></i>
+                      {}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="small text-muted mb-4 pb-2">Контактный телефон</p>
+                    <p class="lead fw-normal mb-0">{}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="small text-muted mb-4 pb-2">Количество</p>
+                    <p class="lead fw-normal mb-0">{}</p>
+                  </div>
+                </div>
+                <div class="col-md-2 d-flex justify-content-center">
+                  <div>
+                    <p class="small text-muted mb-4 pb-2">Итого</p>
+                    <p class="lead fw-normal mb-0">{}</p>
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="card mb-5">
+            <div class="card-body p-4">
+  
+              <div class="float-end">
+                <p class="mb-0 me-5 d-flex align-items-center">
+                  <span class="small text-muted me-2">Итого к оплате:</span> <span
+                    class="lead fw-normal">{}</span>
+                </p>
+              </div>
+  
+            </div>
+          </div>
+  
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-light btn-lg me-2">продолжить покупки</button>
+            <button type="button" class="btn btn-primary btn-lg">Оформить заказ</button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  
 {% endblock %}

@@ -1,15 +1,29 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Users, Products, Orders, Order_items, Cart, CartItem
-from .forms import EditForm
-from .forms import ProductsForm
-from .forms import OrdersForm
-from .forms import Order_itemsForm
+from .forms import EditForm, ProductsForm, OrdersForm
 # Create your views here.
 
 def products_list(request):
     products = Products.objects.all()
+    form = ProductsForm()
+    if request.method == 'POST':
+        form = ProductsForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            form = ProductsForm()
 
-    return render(request, 'shop/products_list.html', {'products': products})
+    return render(request, 'shop/products_list.html',
+                  {'products': products,
+                   'form': form})
+
+def delete_product(request, product_id):
+    product = Products.objects.get(pk=product_id)
+    if request.method == 'POST':
+        product.delete()
+        return redirect('products')
+    else:
+        return HttpResponse('Nonono!')
 
 def users(request):
 
@@ -32,16 +46,7 @@ def edit_order(request, order_id):
         form = EditForm(instance=edit)
 
     return render(request, 'edit_order.html', {'form': form, 'edit': edit})
-def createProduct(request):
-    form = ProductsForm()
-    if request.method == 'POST':
-        form = ProductsForm(request.POST)
-        if form.is_valid():
-            form.save()
-        else:
-            form = ProductsForm()
 
-    return render (request, 'shop/createProduct.html',  {'form': form})
 def add_to_cart(request, product_id):
     if request.method == 'POST':
         product = Products.objects.get(pk=product_id)
@@ -54,20 +59,12 @@ def add_to_cart(request, product_id):
     else:
         # Обработка GET-запроса, например, отображение страницы продукта
         product = Products.objects.get(pk=product_id)
-        return render(request, 'product_detail.html', {'product': product})
+        return render(request, 'shop/products_list.html', {'product': product})
 
 def cart_detail(request):
     cart, created = Cart.objects.get_or_create()
     cart_items = cart.cartitem_set.all()
     total = sum(item.product.price * item.quantity for item in cart_items)
-    return render(request, 'shop/cart_detail.html', {'cart_items': cart_items, 'total': total})
-
-def clear_cart(request):
-    cart, created = Cart.objects.get_or_create()
-    cart.cartitem_set.all().delete()
-    return redirect('cart_detail')
-
-def createOrders(request):
     form = OrdersForm()
     #Two_form = Order_itemsForm()
 
@@ -82,7 +79,18 @@ def createOrders(request):
         else:
             form = OrdersForm()
 
-    return render (request, 'shop/order_info.html',  {'form': form})
+    return render(request, 'shop/cart_detail.html', {'cart_items': cart_items, 'total': total, 'form': form})
 
-def order_detail(request):
-    return render(request, 'shop/order_detail.html')
+def clear_cart(request):
+    cart, created = Cart.objects.get_or_create()
+    cart.cartitem_set.all().delete()
+    return redirect('cart_detail')
+def return_product(request):
+    return redirect('products_list')
+
+def order_info(request, id):
+    order = Orders.objects.get(pk=id)
+    order_detail = Order_items.objects.filter(order_id=id)
+
+    return render(request, 'shop/order_info.html', {'order_detail': order_detail})
+

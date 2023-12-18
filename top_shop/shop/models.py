@@ -7,6 +7,7 @@ class Products(models.Model):
     name = models.CharField(max_length=255)
     price = models.FloatField()
     stock = models.IntegerField()
+    image = models.TextField(null=True)
 
 class Orders(models.Model):
     name = models.CharField(max_length=20, blank=True)
@@ -34,3 +35,4 @@ class CartItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
+    image = models.TextField(null=True)
