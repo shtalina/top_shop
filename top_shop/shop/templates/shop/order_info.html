@@ -6,4 +6,28 @@
 
 {% block content %}
 
+   <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id заказа</th>
+        <th scope="col">Продукт</th>
+        <th scope="col">Количество</th>
+        <th scope="col">Цена</th>
+       </tr>
+    </thead>
+    <tbody>
+    {% for detail in order_detail %}
+
+    <tr>
+
+        <td>{{ detail.order }}</td>
+        <td>{{ detail.product }}</td>
+         <td>{{ detail.quantity }}</td>
+        <td>{{ detail.price_cart }}</td>
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
 {% endblock %}
