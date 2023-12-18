@@ -2,6 +2,7 @@ from django.db import models
 
 class Users(models.Model):
     name = models.CharField(max_length=255)
+    status = models.CharField(max_length=255, choices=[('manager', 'Manager'), ('pokup', 'Pokup')])
 
 class Products(models.Model):
     name = models.CharField(max_length=255)

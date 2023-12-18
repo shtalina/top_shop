@@ -1,8 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import Users, Products, Orders, Order_items, Cart, CartItem
+from .models import Users, Products, Orders, Order_items, Cart, CartItem, Users
 from .forms import EditForm
 from .forms import ProductsForm
 from .forms import OrdersForm
+from .forms import UsersForm
+
 # Create your views here.
 
 def products_list(request):
@@ -28,9 +30,27 @@ def delete_product(request, product_id):
         return HttpResponse('Nonono!')
 
 def users(request):
+    users = Users.objects.all()
+    form = UsersForm()
+    if request.method == 'POST':
+        form = UsersForm(request.POST)
+        if form.is_valid():
+            form.save()
+        else:
+            form = UsersForm()
 
-    return render(request, 'shop/users.html')
+    return render(request, 'shop/users.html',
+                  {'users': users,
+                   'form': form})
 
+def delete_users(request, users_id):
+    users = Users.objects.get(pk=users_id)
+    if request.method == 'POST':
+        users.delete()
+        return redirect('users')
+    else:
+        return HttpResponse('Nonono!')
+    
 def order_list(request):
     orders = Orders.objects.all()
 
