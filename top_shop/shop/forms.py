@@ -1,6 +1,5 @@
 from django import forms
-from .models import Products
-from .models import Orders
+from .models import Products, Orders, Order_items
 class EditForm(forms.Form):
     product_id = forms.IntegerField()
     count = forms.IntegerField()
@@ -17,4 +16,9 @@ class ProductsForm(forms.ModelForm):
 class OrdersForm(forms.ModelForm):
     class Meta:
         model = Orders
-        fields = ['name', 'customer', 'phone', 'type', 'status']
+        fields = ['customer', 'phone', 'user_id', 'type', 'status']
+
+class Order_itemsForm(forms.ModelForm):
+    class Meta:
+        model = Order_items
+        fields = ['order_id', 'product_id', 'count', 'discount', 'cost']

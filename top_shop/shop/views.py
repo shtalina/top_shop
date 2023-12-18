@@ -3,6 +3,7 @@ from .models import Users, Products, Orders, Order_items, Cart, CartItem
 from .forms import EditForm
 from .forms import ProductsForm
 from .forms import OrdersForm
+from .forms import Order_itemsForm
 # Create your views here.
 
 def products_list(request):
@@ -68,11 +69,20 @@ def clear_cart(request):
 
 def createOrders(request):
     form = OrdersForm()
+    #Two_form = Order_itemsForm()
+
     if request.method == 'POST':
         form = OrdersForm(request.POST)
         if form.is_valid():
             form.save()
+            #last_order = Orders.objects.latest('id')
+            #table_order = Orders.objects.get(id=last_order.id)
+            #Two_form = Order_items(order_id=table_order, product_id=3, count=548, discount=0, cost=548)
+            #Two_form.save()
         else:
             form = OrdersForm()
 
     return render (request, 'shop/order_info.html',  {'form': form})
+
+def order_detail(request):
+    return render(request, 'shop/order_detail.html')
