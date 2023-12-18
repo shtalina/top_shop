@@ -1,0 +1,96 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Корзина
+{% endblock %}
+
+{% block content %}
+<h1>Корзина</h1>
+    <table class="table table-hover">
+     <thead>
+        <tr>
+
+            <th scope="col"><h4><b>Название</b></h4></th>
+               <th scope="col"><h4><b>Количество</b></h4></th>
+               <th scope="col"><h4><b>Цена</b></h4></th>
+            </tr>
+     </thead>
+        <tbody>
+        {% for item in cart_items %}
+                <tr>
+                    <td><h5>{{ item.product.name }}</h5></td>
+                    <td><h5>{{ item.quantity }}</h5></td>
+                    <td><h5>${{ item.product.price }}2</h5></td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+      <div class="card mb-5">
+            <div class="card-body p-4">
+
+              <div class="float-end">
+                <p class="mb-0 me-5 d-flex align-items-center">
+                    <span class="small text-muted me-2"><h5><b>Итого к оплате:</b></h5></span>
+                    <span class="lead fw-normal"><h5><b>${{ total }}</b></h5></span>
+                </p>
+              </div>
+
+            </div>
+          </div>
+        <div class="d-flex justify-content-end">
+         <form action="{% url 'clear_cart' %}" method="post">
+                {% csrf_token %}
+            <button type="submit" class="btn btn-light btn-lg me-2">Удалить товары из корзины</button>
+          </form>
+                <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Оформить заказ</button>
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                        <form method="post">
+                                                {% csrf_token %}
+                                            <div class="mb-3">
+                                              <label for="exampleFormControlInput1" class="form-label">Создатель</label>
+                                                {{ form.customer }}
+                                            </div>
+                                              <div class="mb-3">
+                                              <label for="exampleFormControlInput1" class="form-label">Телефон</label>
+                                             {{ form.phone }}
+                                            </div>
+                                              <div class="mb-3">
+                                              <label for="exampleFormControlInput1" class="form-label">ID</label>
+                                              {{ form.user_id }}
+                                            </div>
+                                              <div class="mb-3">
+                                              <label for="exampleFormControlInput1" class="form-label">Тип</label>
+                                              {{ form.type }}
+                                            </div>
+                                             <div class="mb-3">
+                                              <label for="exampleFormControlInput1" class="form-label">Статус</label>
+                                              {{ form.status }}
+                                            </div>
+                                      </div>
+                                      <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                         <button type="submit">Добавить товар</button>
+                                          </form>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+            </form>
+            <form action="{% url 'products' %}" method="">
+                {% csrf_token %}
+            <button type="submit" class="btn btn-primary btn-lg">Продолжить покупки</button>
+            </form>
+          </div>
+
+
+
+
+{% endblock %}
+

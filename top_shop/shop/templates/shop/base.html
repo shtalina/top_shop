@@ -126,7 +126,7 @@
   <div class="flex-shrink-0 p-3" style="width: -10px; margin: 5 auto;">
     <br>
     <br>
-    <a href="/" class="d-flex align-items-center pb-4 mb-2 link-body-emphasis text-decoration-none border-bottom">
+    <a href="{% url 'products' %}" class="d-flex align-items-center pb-4 mb-2 link-body-emphasis text-decoration-none border-bottom">
       <div class="fs-5 mb-3 border p-3 text-center">
         <div class="d-flex align-items-center">
           <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-lightning-charge-fill me-2" viewBox="0 0 16 16">
@@ -148,7 +148,7 @@
         </a>
       </li>
       <li class="mb-1">
-        <a href="{% url 'cart' %}" class="btn btn-outline-dark btn-lg rounded-pill fw-bold border-0">
+        <a href="{% url 'cart_detail' %}" class="btn btn-outline-dark btn-lg rounded-pill fw-bold border-0">
           Корзина
         </a>
       </li>

@@ -14,21 +14,30 @@
         <th scope="col">Менеджер</th>
         <th scope="col">Покупатель</th>
         <th scope="col">Контактный телефон</th>
-        <th scope="col">Товар</th>
-        <th scope="col">Количество</th>
+        <th scope="col">Создан</th>
+        <th scope="col">Завершен</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-        <td>{}</td>
-      </tr>
+    {% for order in orders %}
+
+    <tr>
+
+        <td>{{ order.id}}</td>
+        <td>{{ order.type }}</td>
+        <td>{{ order.status }}</td>
+         <td>{{ order.user_id }}</td>
+        <td>{{ order.customer }}</td>
+        <td>{{ order.phone }}</td>
+        <td>{{ order.created_at }}</td>
+        <td>{{ order.completed_at }}</td>
+
+
+
+        <td><a href="">Подробнее</a></td>
+    </tr>
+
+    {% endfor %}
       
     </tbody>
   </table>
