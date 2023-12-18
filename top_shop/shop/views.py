@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
-from .models import Users, Products, Orders, Order_items, Cart, CartItem
+from .models import Users, Products, Orders, Order_items, Cart, CartItem, OrderItem
 from .forms import EditForm, ProductsForm, OrdersForm
 # Create your views here.
 
@@ -66,16 +66,14 @@ def cart_detail(request):
     cart_items = cart.cartitem_set.all()
     total = sum(item.product.price * item.quantity for item in cart_items)
     form = OrdersForm()
-    #Two_form = Order_itemsForm()
 
     if request.method == 'POST':
         form = OrdersForm(request.POST)
         if form.is_valid():
-            form.save()
-            #last_order = Orders.objects.latest('id')
-            #table_order = Orders.objects.get(id=last_order.id)
-            #Two_form = Order_items(order_id=table_order, product_id=3, count=548, discount=0, cost=548)
-            #Two_form.save()
+            order = form.save()  # Сохраняем заказ
+            for cart_item in cart_items:
+                OrderItem.objects.create(order=order, product=cart_item.product, quantity=cart_item.quantity, price_cart=cart_item.product.price)
+            # Далее можно перейти к странице с подробной информацией о заказе
         else:
             form = OrdersForm()
 
@@ -90,7 +88,15 @@ def return_product(request):
 
 def order_info(request, id):
     order = Orders.objects.get(pk=id)
-    order_detail = Order_items.objects.filter(order_id=id)
+    order_detail = OrderItem.objects.filter(order=id)
 
     return render(request, 'shop/order_info.html', {'order_detail': order_detail})
+
+def delete_order(request, order_id):
+    order = Orders.objects.get(pk=order_id)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('orders')
+    else:
+        return HttpResponse('Nonono!')
 

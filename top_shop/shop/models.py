@@ -15,8 +15,7 @@ class Orders(models.Model):
     phone = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     completed_at = models.DateTimeField(auto_now_add=True)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE
-    )
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     type = models.CharField(max_length=255, choices=[('online', 'Online'), ('offline', 'Offline')])
     status = models.CharField(max_length=255, choices=[('active', 'Active'), ('completed', 'Completed'),
                                                        ('cancelled', 'Cancelled')])
@@ -34,5 +33,16 @@ class Cart(models.Model):
 class CartItem(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE, null=True)
+    order_items = models.ForeignKey(Order_items, on_delete=models.CASCADE, null=True)
     quantity = models.PositiveIntegerField(default=1)
     image = models.TextField(null=True)
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Orders, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price_cart = models.IntegerField(null=True)
+    count = models.IntegerField(null=True)
+    discount = models.FloatField(null=True)
+    cost = models.FloatField(null=True)
