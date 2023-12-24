@@ -1,6 +1,6 @@
 from django import forms
 from .models import Products, Orders, Users
-class EditForm(forms.Form):
+class EditForm(forms.ModelForm):
     class Meta:
         model = Orders
         fields = ['customer', 'phone', 'user_id', 'type', 'status']

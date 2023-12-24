@@ -1,0 +1,34 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Пользователи
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3">
+    <label for="customer" class="form-label">Покупатель</label>
+    {{ form.customer }}
+  </div>
+  <div class="mb-3">
+    <label for="phone" class="form-label">Номер телефона</label>
+    {{ form.phone }}
+  </div>
+  <div class="mb-3">
+    <label for="user_id" class="form-label">Менеджер</label>
+    {{ form.user_id }}
+  </div>
+  <div class="mb-3">
+    <label for="type" class="form-label">Тип</label>
+    {{ form.type }}
+  </div>
+  <div class="mb-3">
+    <label for="status" class="form-label">Статус</label>
+    {{ form.status }}
+  </div>
+  <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+
+{% endblock %}

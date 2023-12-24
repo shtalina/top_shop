@@ -6,7 +6,6 @@
 
 {% block content %}
 <h1 class="mt-4 mb-4">Заказы</h1>
-<div class="mt-4">
 <table class="table">
     <thead>
       <tr>
@@ -37,8 +36,52 @@
           {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Удалить</button>
       </form></td>
+        <td>
 
+          <a href="{% url 'edit_order' order_id=order.id %}" type="button" class="btn btn-primary">Редактировать</a>
 
+                    <!--  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Редактирование заказа</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" id="editForm" data-instance-id="{{ instance_id }}">
+
+                                                    <div class="mb-3">
+                                                      <label for="customer" class="form-label">Покупатель</label>
+                                                        {{ form.customer }}
+                                                    </div>
+                                                      <div class="mb-3">
+                                                      <label for="phone" class="form-label">Номер телефона</label>
+                                                     {{ form.phone }}
+                                                    </div>
+                                                      <div class="mb-3">
+                                                      <label for="user_id" class="form-label">Менеджер</label>
+                                                      {{ form.user_id }}
+                                                    </div>
+                                                      <div class="mb-3">
+                                                      <label for="type" class="form-label">Тип</label>
+                                                      {{ form.type }}
+                                                    </div>
+                                                     <div class="mb-3">
+                                                      <label for="status" class="form-label">Статус</label>
+                                                      {{ form.status }}
+                                                    </div>
+                                                 </div>
+                                    </form>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                                        <button type="submit" form="editForm" class="btn btn-primary">Сохранить изменения</button>
+                                    </div>
+
+                            </div>
+                        </div>
+                    </div>-->
+                </td>
 
         <td><a href="{% url 'order_info' id=order.id %}">Подробнее</a></td>
     </tr>
@@ -47,6 +90,38 @@
       
     </tbody>
   </table>
-</div>
   
 {% endblock %}
+<script>
+   $(document).ready(function() {
+    $('#exampleModal').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget);
+        var id = button.data('instance-id');
+        $.ajax({
+            url: '/edit_order/' + id,
+            type: 'GET',
+            success: function(data) {
+                $('#editForm').html(data);
+            }
+        });
+    });
+
+    $('#editForm').submit(function(event) {
+        event.preventDefault();
+        var id = $(this).data('instance-id');
+        var formData = $(this).serialize();
+        $.ajax({
+            url: '/edit_order/' + id,
+            type: 'POST',
+            data: formData,
+            success: function(data) {
+                if (data.success) {
+                    // Обновите данные на странице или закройте модальное окно
+                } else {
+                    // Обработка ошибок
+                }
+            }
+        });
+    });
+});
+</script>
