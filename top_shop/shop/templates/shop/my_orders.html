@@ -1,0 +1,48 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}
+Заказы
+{% endblock %}
+
+{% block content %}
+<h1 class="mt-4 mb-4">Заказы</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Тип заказа</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Менеджер</th>
+
+        <th scope="col">Контактный телефон</th>
+        <th scope="col">Создан</th>
+        <th scope="col">Завершен</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+
+    <tr>
+
+        <td>{{ order.id}}</td>
+        <td>{{ order.type }}</td>
+        <td>{{ order.status }}</td>
+         <td>{{ order.user_id }}</td>
+
+        <td>{{ order.phone }}</td>
+        <td>{{ order.created_at }}</td>
+        <td>{{ order.completed_at }}</td>
+            <td><form action="{% url 'cancel_order' order_id=order.id %}" method="post">
+          {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Отменить заказ</button>
+      </form></td>
+
+
+    </tr>
+
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+{% endblock %}

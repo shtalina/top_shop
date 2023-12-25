@@ -18,3 +18,6 @@ class UsersForm(forms.ModelForm):
     class Meta:
         model = Users
         fields = ['name']
+
+
+

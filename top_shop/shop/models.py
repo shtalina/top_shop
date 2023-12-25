@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 class Users(models.Model):
     name = models.CharField(max_length=255)
 
@@ -25,6 +25,7 @@ class Orders(models.Model):
     type = models.CharField(max_length=255, choices=[('online', 'Online'), ('offline', 'Offline')])
     status = models.CharField(max_length=255, choices=[('active', 'Active'), ('completed', 'Completed'),
                                                        ('cancelled', 'Cancelled')])
+    users = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.customer
@@ -55,3 +56,4 @@ class OrderItem(models.Model):
     count = models.IntegerField(null=True)
     discount = models.FloatField(null=True)
     cost = models.FloatField(null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
