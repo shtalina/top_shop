@@ -9,23 +9,24 @@
    <table class="table">
     <thead>
       <tr>
-        <th scope="col">id заказа</th>
-        <th scope="col">Продукт</th>
-        <th scope="col">Количество</th>
-        <th scope="col">Цена</th>
+            <th scope="col">Название заказа</th>
+            <th scope="col">Продукт</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Общая цена</th>
        </tr>
     </thead>
-
-
     <tbody>
     {% for detail in order_detail %}
 
     <tr>
-
         <td>{{ detail.order }}</td>
         <td>{{ detail.product }}</td>
          <td>{{ detail.quantity }}</td>
-        <td>{{ detail.price_cart}}</td>
+        <td>{{ detail.price_cart }}</td>
+         <td><form action="{% url 'delete_items' detail.id %}" method="post">
+              {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+          </form></td>
     </tr>
 
     {% endfor %}

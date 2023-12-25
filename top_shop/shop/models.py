@@ -25,6 +25,8 @@ class Orders(models.Model):
     type = models.CharField(max_length=255, choices=[('online', 'Online'), ('offline', 'Offline')])
     status = models.CharField(max_length=255, choices=[('active', 'Active'), ('completed', 'Completed'),
                                                        ('cancelled', 'Cancelled')])
+
+
     def __str__(self):
         return self.customer
 
@@ -54,4 +56,3 @@ class OrderItem(models.Model):
     count = models.IntegerField(null=True)
     discount = models.FloatField(null=True)
     cost = models.FloatField(null=True)
-
