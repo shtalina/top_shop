@@ -1,0 +1,16 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    login
+{% endblock title %}
+
+{% block content %}
+    <!-- Остальное содержимое страницы -->
+{% endblock content %}
+
+{% block form %}
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Login</button>
+    </form>
+{% endblock form %}

@@ -1,0 +1,17 @@
+{% extends 'shop/base.html' %}
+{% block title %}
+    login
+{% endblock title %}
+
+{% block container %}
+
+    <!-- breadcrumb part start-->
+<!-- Файл login.html -->
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Register</button>
+</form>
+
+    <!--::footer_part start::-->
+    {% endblock container %}
