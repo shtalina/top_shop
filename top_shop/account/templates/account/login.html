@@ -1,16 +1,39 @@
 {% extends 'shop/base.html' %}
 {% block title %}
-    login
+   Войти
 {% endblock title %}
 
 {% block content %}
+   <br>
+    <br>
+     <div class="d-flex justify-content-center">
+     <h2>Авторизоваться</h2>
+     </div>
+    <br>
     <!-- Остальное содержимое страницы -->
 {% endblock content %}
 
 {% block form %}
-    <form method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Login</button>
+   <div class="d-flex justify-content-center">
+    <form method="post" class="w-50">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Логин</label>
+            <input type="text" name="username" id="id_username" class="form-control">
+            <small id="usernameHelp" class="form-text text-muted">Введите логин</small>
+            {% if form.username.errors %}
+                <p class="text-danger">{{ form.username.errors|striptags }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_password" class="form-label">Пароль</label>
+            <input type="password" name="password" id="id_password" class="form-control">
+            <small id="passwordHelp" class="form-text text-muted">Введите пароль</small>
+            {% if form.password.errors %}
+                <p class="text-danger">{{ form.password.errors|striptags }}</p>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Войти</button>
     </form>
+</div>
 {% endblock form %}

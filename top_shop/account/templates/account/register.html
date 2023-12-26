@@ -1,17 +1,48 @@
 {% extends 'shop/base.html' %}
 {% block title %}
-    login
+    Регистрация
 {% endblock title %}
 
-{% block container %}
-
+{% block content %}
+    <br>
+    <br>
+     <div class="d-flex justify-content-center">
+     <h2>Регистрация</h2>
+     </div>
+    <br>
+{% endblock content %}
     <!-- breadcrumb part start-->
 <!-- Файл login.html -->
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
-
+{% block form %}
+<div class="d-flex justify-content-center">
+    <form method="post" class="w-50">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Логин</label>
+            <input type="text" name="username" id="id_username" class="form-control">
+            <small id="usernameHelp" class="form-text text-muted">Введите логин</small>
+            {% if form.username.errors %}
+                <p class="text-danger">{{ form.username.errors|striptags }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_password1" class="form-label">Пароль</label>
+            <input type="password" name="password1" id="id_password1" class="form-control">
+            <small id="passwordHelp" class="form-text text-muted">Введите пароль</small>
+            {% if form.password1.errors %}
+                <p class="text-danger">{{ form.password1.errors|striptags }}</p>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_password2" class="form-label">Подтверждение пароля</label>
+            <input type="password" name="password2" id="id_password2" class="form-control">
+            <small id="password2Help" class="form-text text-muted">Пожалуйста, подтвердите пароль</small>
+            {% if form.password2.errors %}
+                <p class="text-danger">{{ form.password2.errors|striptags }}</p>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Регистрация</button>
+    </form>
+</div>
+{% endblock form %}
     <!--::footer_part start::-->
-    {% endblock container %}

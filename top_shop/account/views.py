@@ -11,8 +11,9 @@ def register(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('')
+            if user is not None:
+                login(request, user)
+                return redirect('products')
     else:
         form = UserCreationForm()
     return render(request, 'account/register.html', {'form': form})
@@ -27,7 +28,8 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 # Обработка успешного входа пользователя
-                return render(request, 'shop/products_list.html')  # Перенаправление на главную страницу после входа
+                return render(request, 'shop/products_list.html')
+                # Перенаправление на главную страницу после входа
                 # Обработка неверных учетных данных
                 # Например, отображение сообщения об ошибке
         # Если форма не валидна или пользователь не аутентифицирован, остаемся на странице входа и отображаем ошибки
