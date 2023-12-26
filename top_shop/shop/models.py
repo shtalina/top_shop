@@ -20,11 +20,11 @@ class Orders(models.Model):
     customer = models.CharField(max_length=255)
     phone = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    completed_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(null=True)
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     type = models.CharField(max_length=255, choices=[('online', 'Online'), ('offline', 'Offline')])
     status = models.CharField(max_length=255, choices=[('active', 'Active'), ('completed', 'Completed'),
-                                                       ('cancelled', 'Cancelled')])
+                                                       ('cancelled', 'Cancelled')], default='active')
     users = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     def __str__(self):

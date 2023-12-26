@@ -3,8 +3,9 @@ from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from .models import Users, Products, Orders, Order_items, Cart, CartItem, OrderItem
 from .forms import EditForm, ProductsForm, OrdersForm, UsersForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.db import transaction
+from django.utils import timezone
 # Create your views here.
 
 def products_list(request):
@@ -127,6 +128,7 @@ def cart_detail(request):
     if request.method == 'POST':
         form = OrdersForm(request.POST)
         if form.is_valid():
+
             order = form.save(commit=False)
             order.users = request.user
             order.save()
@@ -145,6 +147,14 @@ def cart_detail(request):
 
     return render(request, 'shop/cart_detail.html', {'cart_items': cart_items, 'total': total, 'form': form})
 
+@login_required
+def complete_order(request, order_id):
+    order = Orders.objects.get(pk=order_id)
+    if order:
+        order.status = 'completed'  # Устанавливаем статус "completed"
+        order.completed_at = timezone.now()  # Устанавливаем текущее время в completed_at
+        order.save()
+    return redirect('orders')
 def clear_cart(request):
     cart, created = Cart.objects.get_or_create()
     cart_items = cart.cartitem_set.all()

@@ -31,6 +31,11 @@
         <td>{{ order.phone }}</td>
         <td>{{ order.created_at }}</td>
         <td>{{ order.completed_at }}</td>
+        <td><form action="{% url 'complete_order' order.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Сохранить заказ</button>
+
+        </form> </td>
             <td><form action="{% url 'delete_order' order.id %}" method="post">
           {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Удалить</button>
